@@ -1,0 +1,61 @@
+import java.util.List;
+
+public class RailYard<T> {
+  
+  private int[] arr;
+  
+  /**
+   * 
+  public RailYard(int yards) {
+    setArr(yards);
+  }
+  
+  /**
+   * Prints out the elements in the array
+   */
+  public void getArr() {
+    for(int i = 0; i < arr.length; i++) {
+      System.out.println(arr[i]);
+    }
+  }
+  
+  public void cycleSort(T[] train) {
+    
+  }
+  
+  public void cycleSort(List<T> train) {
+    
+  }
+  
+  public void closestSort(T[] train) {
+    
+  }
+  
+  public void closestSort(List<T> train) {
+    
+  }
+  
+  public void setArr(int first) {
+    arr = new int[first];
+  }
+  
+  private static class RailYardCompareByValue implements Comparable<RailYard> {
+    
+    public int compareTo(RailYard e1) { // fix
+      return 1;
+    }
+  }
+  
+  public static void main(String[] args) {
+    
+    int yards = Integer.parseInt(args[1]);
+    
+    /*if (sort.equals("cycle")) {
+    }
+    else if (sort.equals("closest")) {
+    }
+    else {
+      System.out.println("Inserted sorting parameter is invalid: try \"cycle\" or \"closest\" sorting algorithm");
+    }*/
+  }
+}
