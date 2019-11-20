@@ -8,12 +8,12 @@ public class RailYard<T> {
   
   public RailYard(int element) {
     //  if () {
-    arr = new TrackStrings[element];
+   // arr = new TrackStrings[element];
     //  else {
     //arr = new TrackIntegers[element];
   }
   
-  private static class TrackStrings extends LinkedList<String> implements Comparable<TrackStrings> {
+  private class TrackStrings extends LinkedList<String> implements Comparable<TrackStrings> {
     
     private String name = "";
     
@@ -28,7 +28,7 @@ public class RailYard<T> {
       this.name = name;
     }
     
-    public boolean alphaOrder(char first, char second) {
+    public int alphaOrder(char first, char second) {
       Character.toUpperCase(first);
       Character.toUpperCase(second);
       if (first < second) {
@@ -48,7 +48,7 @@ public class RailYard<T> {
     }
   }
   
-  private static class TrackIntegers extends LinkedList<Integer> implements Comparable<TrackIntegers> {
+  private class TrackIntegers extends LinkedList<Integer> implements Comparable<TrackIntegers> {
     
     private Integer value = null;
     
