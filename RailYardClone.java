@@ -29,26 +29,17 @@ public class RailYardClone<T extends Comparable<T>> {
   
   /**
    */
-  public void setYardIndex(int yardIndex, int amountOfTracks) {
-    if (yardIndex < getCapacity()) {
-      getArr().add(yardIndex, new ArrayList<LinkedList<T>>(amountOfTracks));
-    }
-    else {
-      System.out.println("Inputted yard index does not exist");
+  public void createTracks(int index, int tracks) {
+    getArr().add(new ArrayList<LinkedList<T>>(tracks));
+    for(int i = 0; i < tracks; i++) {
+      getArrIndex(index).add(new LinkedList<T>());
     }
   }
   
   /**
    */
-  public void initYardIndex(int yardIndex, int amountOfTracks) {
-    int trackAmount = 0;
-    for(int i = 0; i < capacity; i++) {
-      setYardIndex(yardIndex, amountOfTracks);
-      trackAmount = getArr().get(i).size();
-      for(int j = 0; j < trackAmount; j++) {
-        get2DArr(i).add(j, new LinkedList<T>());
-      }
-    }
+  public void addToLinkedList(int index, int index2, T element) {
+    get2DArrIndex(index, index2).add(element);
   }
   
   /**
@@ -59,14 +50,14 @@ public class RailYardClone<T extends Comparable<T>> {
   
   /**
    */
-  public ArrayList<LinkedList<T>> get2DArr(int index) {
+  public ArrayList<LinkedList<T>> getArrIndex(int index) {
     return getArr().get(index);
   }
   
   /**
    */
-  public LinkedList<T> getLinkedList(int index, int index2) {
-    return get2DArr(index).get(index2);
+  public LinkedList<T> get2DArrIndex(int index, int index2) {
+    return getArrIndex(index).get(index2);
   }
   
   /**
@@ -91,7 +82,29 @@ public class RailYardClone<T extends Comparable<T>> {
    * @param T[] represents an array of objects that will be sorted
    */
   public void cycleSort(T[] train) {
-    
+    for(int i = 0; i < getArr().size(); i++) {
+      
+      for(int j = 0; j < getArrIndex(i).size(); j++) {
+        
+        for (int k = 0, counter = 0; counter < train.length; k++, counter++) {
+          
+          if(counter == 0) {
+            get2DArrIndex(i,j).addLast(train[k]);
+          }
+          else if(train[k].compareTo(get2DArrIndex(i,j).getLast()) >= 0) {
+            get2DArrIndex(i,j).addLast(train[k]);
+          }
+          else if(j < getArrIndex(i).size() - 1) {
+            get2DArrIndex(i, j + 1).addLast(train[k]);
+          }
+          else if(j == getArrIndex(i).size() - 1) {
+            k = 0;
+            get2DArrIndex(i, k).addLast(train[k]);
+          }
+        }
+      }
+      
+    }
   }
   
   /**
@@ -99,7 +112,28 @@ public class RailYardClone<T extends Comparable<T>> {
    * @param List<T> represents any object that implements List<T> that will be sorted
    */
   public void cycleSort(List<T> train) {
-    
+    for(int i = 0; i < getArr().size(); i++) {
+      
+      for(int j = 0; j < getArrIndex(i).size(); j++) {
+        
+        for (int k = 0, counter = 0; counter < train.size(); k++, counter++) {
+          
+          if(counter == 0) {
+            get2DArrIndex(i,j).addLast(train.get(k));
+          }
+          else if(train.get(k).compareTo(get2DArrIndex(i,j).getLast()) >= 0) {
+            get2DArrIndex(i,j).addLast(train.get(k));
+          }
+          else if(j < getArrIndex(i).size() - 1) {
+            get2DArrIndex(i, j + 1).addLast(train.get(k));
+          }
+          else if(j == getArrIndex(i).size() - 1) {
+            get2DArrIndex(i, 0).addLast(train.get(k));
+          }
+        }
+      }
+      
+    }
     
     
   }
@@ -123,23 +157,50 @@ public class RailYardClone<T extends Comparable<T>> {
   /**
    */
   public static void main(String[] args) {
-    
-    if(args[0].equals("cycle")) {
-      
-      RailYardClone<Integer> railyard = new RailYardClone<Integer>(Integer.parseInt(args[1]));
-      int counter = Integer.parseInt(args[1]);
-      
-      for(int i = 0; i < counter && i < args.length; i++) {
-        railyard.initYardIndex(i, Integer.parseInt(args[2 + i]));
-      }
-      
-      for(int i = 0; i < railyard.getCapacity(); i++) {
-        for (int j = 0; i < Integer.parseInt(args[2 + i]); j++) {
-          railyard.getLinkedList(i,j).add(2);
-          System.out.print(railyard.getLinkedList(i,j).getFirst());
-        }
-        System.out.println();
-      }
+    RailYardClone<String> railYard = new RailYardClone<String>(Integer.parseInt(args[1]));
+    /*if(args[args.length - 1] instanceof String) {
+      railYard = new RailYardClone<String>(Integer.parseInt(args[1]));
     }
+    else {
+      railYard = new RailYardClone<Integer>(Integer.parseInt(args[1]));
+    }*/
+    
+    if(args[0].equals("cycle")) {      
+      for(int i = 0; i < Integer.parseInt(args[1]); i++) {        
+        railYard.createTracks(i, Integer.parseInt(args[2 + i]));
+      }
+      
+      ArrayList<String> sortArray = new ArrayList<String>(args.length - (Integer.parseInt(args[1]) + 1));
+      for (int i = Integer.parseInt(args[1]) + 2; i < args.length; i++) {
+        sortArray.add(args[i]);
+      }
+      
+      for (int i = 0; i < sortArray.size(); i++) {
+        railYard.cycleSort(sortArray);
+      }
+      
+      
+    }
+    
+    else if (args[0].equals("closest")){
+    }
+    
+    else {
+      System.out.println("You messed up bro");
+    }
+    
+    /*RailYardClone<Integer> railyard = new RailYardClone<Integer>(Integer.parseInt(args[1]));
+     int counter = Integer.parseInt(args[1]);
+     
+     for(int i = 0; i < counter && i < args.length; i++) {
+     railyard.initYardIndex(i, Integer.parseInt(args[2 + i]));
+     }
+     
+     for(int i = 0; i < railyard.getCapacity(); i++) {
+     for (int j = 0; i < Integer.parseInt(args[2 + i]); j++) {
+     railyard.getLinkedList(i,j).add(2);
+     System.out.print(railyard.getLinkedList(i,j).getFirst());
+     }
+     System.out.println();*/
   }
 }
